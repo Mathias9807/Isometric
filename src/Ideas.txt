@@ -1,0 +1,35 @@
+A mix between Red Alert, Tribal Wars and Lego Battles. The player is in control of a kingdom and they have to protect it from other kingdoms. 
+
+Buildings
+
+	Entities that never move but provide functionality or increased stats to the kingdom, e.g. a normal house can increase the population cap, a wall that hinders enemies etc. 
+	
+	Every kingdom has a main building where the king resides. 
+	
+	The population affects how many soldiers the kingdom can have but they require housing and food from farms. 
+	
+	Buildings are built by builders. They cost a certain amount of materials to create and take time to build. There are two ways to destroy a building: 
+		-Burning: You can burn a building to quickly destroy it, this will give minimal resources back. 
+		-Disassemble: You can disassemble a building to get all resources back however this takes a while. 
+
+People
+	
+	Entities that do move around and can accomplish various tasks, e.g. a soldier can fight enemies, a farmer can improve food supplies, a builder can build things. 
+	
+	When a person is created they spawn next to the building that created them. 
+	
+	Some people could wander around the houses, they wouldn't have a real effect but they would help make the world feel alive. 
+
+Game Mechanics
+	
+	Food
+		
+		If the kingdom has more people than they can give food the people will slowly diminish until the food is enough. 
+		Attacking the kingdoms farms would be very effective at weakening the kingdom. 
+		
+		Food is gained by building farms. Farms will give a small amount of food on their own but if a person is assigned to a farm it will give more and more food. 
+		Farms should take up a lot of space and should be expensive to protect. 
+	
+	AI
+		
+		The AI should be able to build a kingdom of their own and attack your kingdom. 
