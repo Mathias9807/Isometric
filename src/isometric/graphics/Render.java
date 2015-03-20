@@ -19,7 +19,7 @@ import org.lwjgl.util.vector.*;
 public class Render {
 	
 	public static final String 	TITLE = "Isometric View";
-	public static int 			WIDTH, HEIGHT;
+	public static int 			WIDTH = 800, HEIGHT = 600;
 	public static boolean 		blending = true;
 	
 	private static float ratio;
@@ -34,41 +34,51 @@ public class Render {
 	
 	public Render() {
 		try {
-			DisplayMode dm = Display.getDesktopDisplayMode();
-			for (int i = 0; i < Display.getAvailableDisplayModes().length; i++) {
-				dm = Display.getAvailableDisplayModes()[i];
-				if (dm.getWidth() == 800 && dm.getHeight() == 600) break;
-			}
-			Display.setDisplayMode(dm);
-			WIDTH  = dm.getWidth();
-			HEIGHT = dm.getHeight();
-			Display.setTitle(TITLE);
-			Display.setVSyncEnabled(false);
-			try {
-				Display.create(new PixelFormat(0, 8, 0, 8));
-			}catch (Exception e) {
-				try {
-					Display.create(new PixelFormat(0, 8, 0, 4));
-				}catch (Exception ee) {
-					try {
-						Display.create(new PixelFormat(0, 8, 0, 2));
-					}catch (Exception eee) {
-						Display.create();
-					}
-				}
-			}
+			Profiler p = new Profiler();
+			p.startTimer();
+			
+			openWindow();
+			
 			Textures.loadTextures();
-			IntBuffer mouseBuffer = BufferUtils.createIntBuffer(256);
-			Mouse.setNativeCursor(new Cursor(16, 16, 0, 0, 1, mouseBuffer, null));
+			
+			Model.loadModels();
+			
+			if (initOpenGL() != 1) System.err.println("Failed to initialize OpenGL. ");
+			
+			p.print("Renderer initialized and window opened in: ");
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		if (initOpenGL() != 1) System.err.println("Failed to initialize OpenGL. ");
+		
+	}
+	
+	private void openWindow() throws LWJGLException {
+		DisplayMode dm = new DisplayMode(WIDTH, HEIGHT);
+		Display.setDisplayMode(dm);
+		Display.setTitle(TITLE);
+		Display.setVSyncEnabled(false);
+		try {
+			Display.create(new PixelFormat(0, 8, 0, 8));
+		}catch (Exception e) {
+			try {
+				Display.create(new PixelFormat(0, 8, 0, 4));
+			}catch (Exception ee) {
+				try {
+					Display.create(new PixelFormat(0, 8, 0, 2));
+				}catch (Exception eee) {
+					Display.create();
+				}
+			}
+		}
+
+		IntBuffer mouseBuffer = BufferUtils.createIntBuffer(256);
+		Mouse.setNativeCursor(new Cursor(16, 16, 0, 0, 1, mouseBuffer, null));
 	}
 	
 	private int initOpenGL() {
 		blendLayer = new FBO(WIDTH, HEIGHT).withColor(1);
 		
+		// Set initial shader parameters
 		setShader(SHADERFlat);
 		setParam1i("texture0", 5);
 		
@@ -101,12 +111,13 @@ public class Render {
 		glLoadIdentity();
 		applyMatrix(view, "view");
 		
-		Model.loadModels();
+		// Create Vertex Array Objects from loaded models
 		VAOArray = new VAO[Model.models.length];
 		for (int i = 0; i < Model.models.length; i++) {
 			VAOArray[i] = new VAO(i);
 		}
 		
+		// Check for errors
 		int error = glGetError();
 		if (error != GL_NO_ERROR) {
 			Display.setTitle(GLU.gluErrorString(error));

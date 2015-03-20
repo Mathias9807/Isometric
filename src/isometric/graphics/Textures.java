@@ -1,6 +1,7 @@
 package isometric.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
+import isometric.Profiler;
 
 import java.io.IOException;
 
@@ -13,7 +14,8 @@ public class Textures {
 	public static Texture[] tex = new Texture[24];
 	
 	public static void loadTextures() {
-		long startTime = System.nanoTime();
+		Profiler p = new Profiler();
+		p.startTimer();
 		try {
 			loadTexture("/textures/testImage.png", 				0, false);
 			loadTexture("/textures/water0.png", 				1, false);
@@ -30,8 +32,7 @@ public class Textures {
 			e.printStackTrace();
 			System.err.println("Failed to load textures :(");
 		}
-		System.out.println("Textures loaded in: " + 
-				(System.nanoTime() - startTime) / 1000000d + "ms");
+		p.print("Textures loaded in: ");
 	}
 	
 	public static void loadTexture(String path, int loc, boolean linear) throws IOException {

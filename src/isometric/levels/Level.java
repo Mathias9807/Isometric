@@ -1,5 +1,6 @@
 package isometric.levels;
 
+import isometric.Profiler;
 import isometric.entities.Entity;
 import isometric.entities.structures.*;
 
@@ -20,6 +21,8 @@ public class Level {
 	
 	public static void initLevel() {
 		Display.setTitle("Generating map");
+		Profiler p = new Profiler();
+		p.startTimer();
 		for (int x = 0; x < MAP_WIDTH; x++) {
 			Display.setTitle("Generating map... " + 
 					(x * 100 / MAP_HEIGHT) + "%");
@@ -28,6 +31,7 @@ public class Level {
 				generateChunk(x, y);
 			}
 		}
+		p.print("Level initialized in: ");
 	}
 	
 	private static void generateChunk(int arrayX, int arrayY) {

@@ -26,11 +26,14 @@ public class GameHandler {
 	};
 	
 	public static void initGame() {
+		Profiler p = new Profiler();
+		p.startTimer();
 		cameraPos 			= new Vector2f(0, 0);
-		mousePos 		= new Vector2f(0, 0);
-		mouseWorldPos 	= new Vector2f(0, 0);
-		cameraSpeed 			= 0.1f;
+		mousePos 			= new Vector2f(0, 0);
+		mouseWorldPos 		= new Vector2f(0, 0);
+		cameraSpeed 		= 0.1f;
 		player = new Player();
+		p.print("Game state set in: ");
 	}
 	
 	public static void tickGame() {
