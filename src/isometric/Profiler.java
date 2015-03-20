@@ -3,7 +3,7 @@ package isometric;
 /**
  * A timer used to profile performance. 
  * 
- * @author k2
+ * @author Mathias Johansson
  *
  */
 

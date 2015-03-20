@@ -36,7 +36,7 @@ public class Isometric {
 			delta += (now - lastTime) / ns;
 			lastTime = now;
 			while (delta >= 1) {
-				if (!Panel.tick()) break;
+				Panel.tick();
 				Panel.time += 1 / framerate;
 				delta--;
 				frames++;

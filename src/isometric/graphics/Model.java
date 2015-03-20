@@ -5,6 +5,15 @@ import java.util.*;
 
 import org.lwjgl.util.vector.*;
 
+/**
+ * Model wrapper capable of loading and decoding OBJ model files. 
+ * 
+ * The OBJ file decoder creates a new Thread and thus doesn't block. 
+ * If a get method is called before loading and decoding is finished it will block until the data is accessible. 
+ * 
+ * @author Mathias Johansson
+ *
+ */
 public class Model implements Runnable {
 	
 	public static Model[] models;
@@ -26,6 +35,7 @@ public class Model implements Runnable {
 	private volatile InputStream is;
 	
 	public static void loadModels() {
+		
 		ArrayList<Model> tempArray = new ArrayList<Model>();
 		tempArray.add(new Model(Model.class.getResourceAsStream("/models/cube.obj")));
 		tempArray.add(new Model(Model.class.getResourceAsStream("/models/sphere.obj")));
